@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:ecommerce/app/app_colors.dart';
 import 'package:ecommerce/app/app_logo.dart';
 import 'package:ecommerce/features/Prescription/presentation/prescription_list.dart';
+import 'package:ecommerce/features/auth/ui/screens/complete_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -107,10 +108,9 @@ class _QRScanPageState extends State<QRScanPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PdfViewerScreen(pdfPath: '',),
+        builder: (context) => PdfViewerScreen(),
       ),
     );
-
 
     // Process your data here
     print('Mobile: ${_mobileController.text}');
@@ -136,9 +136,9 @@ class _QRScanPageState extends State<QRScanPage> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      SizedBox(height: 60,),
+                      SizedBox(height: 60),
                       Row(
-                        crossAxisAlignment:CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           AppLogo(),
                         ],
@@ -153,15 +153,14 @@ class _QRScanPageState extends State<QRScanPage> {
                                 'Prescription',
                                 style: Theme.of(context).textTheme.titleLarge,
                               ),
-                              SizedBox(height: 5,),
+                              SizedBox(height: 5),
                               Container(
-                                height: 6, // Height of the underline
-                                width: 90, // Width of the underline (adjust as needed)
-                                color: appColors.themeColor, // Color of the underline
+                                height: 6,
+                                width: 90,
+                                color: appColors.themeColor,
                               ),
                             ],
                           ),
-          
                         ],
                       ),
                       SizedBox(height: 30.0),
@@ -213,8 +212,6 @@ class _QRScanPageState extends State<QRScanPage> {
                           return null;
                         },
                       ),
-
-
                       SizedBox(height: 32),
                       SizedBox(
                         width: double.infinity,
@@ -224,11 +221,31 @@ class _QRScanPageState extends State<QRScanPage> {
                           child: Text('Submit'),
                         ),
                       ),
+                      // Added "Don't have an account?" section
+                      Padding(
+                        padding: const EdgeInsets.only(left: 30),
+                        child: Row(
+                          children: [
+                            Text('Don`t have an account?'),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CompleteProfileScreen(),
+                                  ),
+                                );
+                              },
+                              child: Text('Create Account'),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
-          
+
               // QR Scanner Overlay
               if (_showScanner) ...[
                 Positioned.fill(

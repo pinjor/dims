@@ -135,8 +135,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
         title: const Text(
           'Update Profile',
           style: TextStyle(
-            color: Colors.black,
             fontWeight: FontWeight.bold,
+
+          fontSize: 20,color: appColors.themeColor,
           ),
         ),
         centerTitle: true,

@@ -16,20 +16,6 @@ class OrderConfirmationScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          // Time display
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                '10.10 AM',
-                style: TextStyle(
-                  color: Colors.grey[600],
-                  fontSize: 14,
-                ),
-              ),
-            ),
-          ),
 
           // Main content
           Expanded(

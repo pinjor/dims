@@ -15,7 +15,8 @@ class ProfileScreen extends StatelessWidget {
         title: const Text(
           'My Profile',
           style: TextStyle(
-            color: Colors.black,
+
+          fontSize: 20,color: appColors.themeColor,
             fontWeight: FontWeight.bold,
           ),
         ),

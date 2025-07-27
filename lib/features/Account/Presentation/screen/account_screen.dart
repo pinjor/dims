@@ -4,6 +4,8 @@ import 'package:ecommerce/features/Account/Presentation/screen/privacy_policy_sc
 import 'package:ecommerce/features/Account/Presentation/screen/profile_screen.dart';
 import 'package:ecommerce/features/Account/Presentation/screen/return_policy_screen.dart';
 import 'package:ecommerce/features/Account/Presentation/screen/terms_condition.dart';
+import 'package:ecommerce/features/manage_address/presentation/screens/manage_address.dart';
+import 'package:ecommerce/features/orders/presentation/screens/all_my_orders.dart';
 import 'package:flutter/material.dart';
 
 class AccountScreen extends StatelessWidget {
@@ -11,7 +13,8 @@ class AccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Account'),
+        title: Text('Account ',style:
+        TextStyle(fontSize: 20,color: appColors.themeColor),),
         centerTitle: true,
         elevation: 0,
       ),
@@ -108,13 +111,17 @@ class AccountScreen extends StatelessWidget {
                     _buildListTile(
                       title: 'Order',
                       icon: Icons.shopping_bag_outlined,
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>MyOrderScreen()));
+                      },
                     ),
                     Divider(height: 1),
                     _buildListTile(
                       title: 'Manage Address',
                       icon: Icons.location_on_outlined,
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ManageAddressScreen()));
+                      },
                     ),
                   ],
                 ),

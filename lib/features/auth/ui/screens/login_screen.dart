@@ -149,9 +149,9 @@ class LoginScreenState extends State<LoginScreen> {
                               : Icons.visibility_outlined,
                         ),
                         onPressed: () {
-                          // setState(() {
-                          //   _isPasswordVisible = !_isPasswordVisible;
-                          // });
+                          setState(() {
+                            _isPasswordVisible = !_isPasswordVisible;
+                          });
                         },
                       ),
                     ),
