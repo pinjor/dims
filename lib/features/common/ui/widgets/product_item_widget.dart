@@ -1,5 +1,4 @@
 import 'package:ecommerce/app/app_colors.dart';
-import 'package:ecommerce/app/assets_path.dart';
 import 'package:ecommerce/features/product/ui/screens/product_details_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +18,7 @@ class ProductItemWidget extends StatelessWidget {
         child: Card(
           color: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(8),
           ),
           child: Column(
             children: [
@@ -27,13 +26,13 @@ class ProductItemWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: appColors.themeColor.withOpacity(0.12),
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
+                    topLeft: Radius.circular(8),
+                    topRight: Radius.circular(8),
                   ),
                 ),
                 padding: const EdgeInsets.all(16.0),
                 child: Image.asset(
-                  assetsPath.shoe_png,
+                  'assets/images/download.jpg',
                   width: 140,
                   height: 80,
                 ),
@@ -43,7 +42,7 @@ class ProductItemWidget extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      'New Year Special Shoe 30',
+                      'Paracetamol + Tramadol Hydrochloride',
                       maxLines: 1,
                       style: TextStyle(
                         overflow: TextOverflow.ellipsis,

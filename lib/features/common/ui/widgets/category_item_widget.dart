@@ -12,7 +12,7 @@ class CategoryItemWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, ProductListScreen.name,
-            arguments: 'Electronics');
+            arguments: 'Medicines');
       },
       child: Column(
         children: [
@@ -23,7 +23,7 @@ class CategoryItemWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
-              Icons.computer,
+              Icons.medical_services,
               color: appColors.themeColor,
               size: 40,
             ),
@@ -32,7 +32,7 @@ class CategoryItemWidget extends StatelessWidget {
             height: 4,
           ),
           Text(
-            'Electronics',
+            'Medicines',
             style: TextStyle(
               color: appColors.themeColor,
               fontSize: 16,

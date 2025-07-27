@@ -1,3 +1,4 @@
+
 import 'package:get/get.dart';
 
 class MainButtomNavController extends GetxController {
@@ -18,6 +19,7 @@ class MainButtomNavController extends GetxController {
   }
 
   void moveToCategory() {
-    changeIndex(1);
+    //changeIndex(1);
+  Get.offAndToNamed('/category-list-screen');
   }
 }

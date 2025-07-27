@@ -1,6 +1,5 @@
 import 'package:ecommerce/app/assets_path.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class AppLogoWidget extends StatelessWidget {
   const AppLogoWidget({
@@ -16,11 +15,11 @@ class AppLogoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset(
+    return Image.asset(
       //'assets/images/logo.svg',
       assetsPath.app_logo_svg,
-      width: width ?? 120,
-      height: height ?? 120,
+      width: width ?? 220,
+      height: height ?? 220,
       fit: boxfit ?? BoxFit.scaleDown,
     );
   }

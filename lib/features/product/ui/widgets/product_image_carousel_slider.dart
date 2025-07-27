@@ -36,6 +36,7 @@ class _ProductImageCarouselSliderState
                   decoration: const BoxDecoration(
                     color: Colors.black12,
                   ),
+                  child: Image.asset('assets/images/med.png'),
                   // child: Text(
                   //   'Happy Newyear Deal',
                   //   style: TextStyle(fontSize: 16.0),

@@ -2,11 +2,13 @@ import 'package:ecommerce/app/app_theme_data.dart';
 import 'package:ecommerce/app/controller_binder.dart';
 import 'package:ecommerce/features/auth/ui/screens/complete_profile_screen.dart';
 import 'package:ecommerce/features/auth/ui/screens/email_verification_screen.dart';
+import 'package:ecommerce/features/auth/ui/screens/login_screen.dart';
 import 'package:ecommerce/features/auth/ui/screens/otp_verification_screen.dart';
+import 'package:ecommerce/features/auth/ui/screens/reset_password_screen.dart';
 import 'package:ecommerce/features/auth/ui/screens/splash_screen.dart';
 import 'package:ecommerce/features/category/ui/screens/category_list_screen.dart';
 import 'package:ecommerce/features/common/ui/screens/main_bottom_nav_screen.dart';
-import 'package:ecommerce/features/home/ui/screens/home_screen.dart';
+import 'package:ecommerce/features/home/presentation/screens/home_screen.dart';
 import 'package:ecommerce/features/product/ui/screens/product_create_review_screen.dart';
 import 'package:ecommerce/features/product/ui/screens/product_details_screen.dart';
 import 'package:ecommerce/features/product/ui/screens/product_list_screen.dart';
@@ -31,13 +33,18 @@ class craftybay extends StatelessWidget {
         if (settings.name == splash_screen.name) {
           widget = const splash_screen();
         } else if (settings.name == EmailVerificationScreen.name) {
-          widget = const EmailVerificationScreen();
-        } else if (settings.name == OtpVeificationScreen.name) {
+          widget = const EmailVerificationScreen();}
+        else if (settings.name == LoginScreen.name) {
+          widget = const LoginScreen();
+        }
+         else if (settings.name == OtpVeificationScreen.name) {
           widget = const OtpVeificationScreen();
         } else if (settings.name == CompleteProfileScreen.name) {
           widget = const CompleteProfileScreen();
         } else if (settings.name == HomeScreen.name) {
           widget = const HomeScreen();
+        }else if (settings.name == ResetPasswordScreen.name) {
+          widget = const ResetPasswordScreen(phoneNumber: '', otp: '',);
         } else if (settings.name == MainBottomNavScreen.name) {
           widget = const MainBottomNavScreen();
         } else if (settings.name == CategoryListScreen.name) {
@@ -57,6 +64,7 @@ class craftybay extends StatelessWidget {
         } else if (settings.name == ProductReviewList.name) {
           widget = const ProductReviewList();
         }
+
         return MaterialPageRoute(builder: (ctx) {
           return widget;
         });

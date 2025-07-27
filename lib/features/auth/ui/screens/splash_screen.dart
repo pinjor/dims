@@ -1,4 +1,5 @@
-import 'package:ecommerce/features/auth/ui/screens/email_verification_screen.dart';
+
+import 'package:ecommerce/features/auth/ui/screens/login_screen.dart';
 import 'package:ecommerce/features/auth/ui/widgets/app_icon_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -18,8 +19,8 @@ class _splash_screenState extends State<splash_screen> {
   }
 
   Future<void> _moveToNextScreen() async {
-    await Future.delayed(const Duration(seconds: 2));
-    Navigator.pushReplacementNamed(context, EmailVerificationScreen.name);
+    await Future.delayed(const Duration(seconds: 10));
+    Navigator.pushReplacementNamed(context, LoginScreen.name);
   }
 
   @override

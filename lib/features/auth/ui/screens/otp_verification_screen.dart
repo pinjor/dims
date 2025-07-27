@@ -1,6 +1,6 @@
 import 'package:ecommerce/app/app_colors.dart';
-import 'package:ecommerce/features/auth/ui/screens/complete_profile_screen.dart';
-import 'package:ecommerce/features/auth/ui/widgets/app_icon_widget.dart';
+import 'package:ecommerce/app/app_logo.dart';
+import 'package:ecommerce/features/auth/ui/screens/reset_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:otp_timer_button/otp_timer_button.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -29,20 +29,33 @@ class _OtpVeificationScreenState extends State<OtpVeificationScreen> {
             child: Column(
               //mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: 80,
+                SizedBox(height: 15,),
+                Row(
+                  crossAxisAlignment:CrossAxisAlignment.start,
+                  children: [
+                    AppLogo(),
+                  ],
                 ),
-                AppLogoWidget(),
-                SizedBox(
-                  height: 20,
-                ),
-                Text('Enter OTP Code',
-                    style: Theme.of(context).textTheme.titleLarge),
-                Text(
-                  'A 4 Digit OTP Code has been Sent',
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Colors.grey,
-                      ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Confirm OTP Code',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        SizedBox(height: 5,),
+                        Container(
+                          height: 6, // Height of the underline
+                          width: 90, // Width of the underline (adjust as needed)
+                          color: appColors.themeColor, // Color of the underline
+                        ),
+                      ],
+                    ),
+
+                  ],
                 ),
                 SizedBox(
                   height: 24.0,
@@ -73,10 +86,10 @@ class _OtpVeificationScreenState extends State<OtpVeificationScreen> {
                 ElevatedButton(
                   onPressed: () {
                     //if (_formKey.currentState!.validate()) {}
-                    Navigator.pushNamed(context, CompleteProfileScreen.name);
+                    Navigator.pushNamed(context, ResetPasswordScreen.name);
                   },
                   child: Text(
-                    'Next',
+                    'Confirm',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -96,10 +109,7 @@ class _OtpVeificationScreenState extends State<OtpVeificationScreen> {
                         ),
                       ]),
                 ),
-                // TextButton(
-                //   onPressed: () {},
-                //   child: Text('Resend Code'),
-                // ),
+
                 OtpTimerButton(
                   controller: controller,
                   onPressed: () {},

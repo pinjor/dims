@@ -1,4 +1,5 @@
 import 'package:ecommerce/features/common/ui/controllers/main_bottom_nav_controller.dart';
+import 'package:ecommerce/features/common/ui/screens/main_bottom_nav_screen.dart';
 import 'package:ecommerce/features/common/ui/widgets/category_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +13,8 @@ class CategoryListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (_, __) => _onPop(),
+      onPopInvokedWithResult: (_, __) { _onPop();
+      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> MainBottomNavScreen()));},
       child: Scaffold(
         appBar: AppBar(
           title: Text('Category List'),
@@ -37,6 +39,10 @@ class CategoryListScreen extends StatelessWidget {
   }
 
   void _onPop() {
-    Get.find<MainButtomNavController>().backToHome();
+
+     Get.find<MainButtomNavController>().backToHome();
+
+
   }
+
 }

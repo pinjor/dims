@@ -38,7 +38,7 @@ class CartProductItemWidget extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            'Nike Show - AK45394 New Year Deal',
+                            'Paracetamol + Tramadol Hydrochloride',
                             maxLines: 1,
                             style: textTheme.bodyLarge?.copyWith(
                               overflow: TextOverflow.ellipsis,
@@ -50,7 +50,7 @@ class CartProductItemWidget extends StatelessWidget {
                               SizedBox(
                                 width: 8,
                               ),
-                              Text('Size : XL'),
+                              Text('Units : 500mg'),
                             ],
                           ),
                         ],

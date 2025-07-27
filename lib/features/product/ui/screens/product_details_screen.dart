@@ -1,7 +1,7 @@
 import 'package:ecommerce/app/app_colors.dart';
+import 'package:ecommerce/features/cart/ui/screens/cart_list_screen.dart';
 import 'package:ecommerce/features/common/ui/widgets/product_quantity_inc_dec_button.dart';
 import 'package:ecommerce/features/product/ui/screens/product_create_review_screen.dart';
-import 'package:ecommerce/features/product/ui/widgets/color_picker_widget.dart';
 import 'package:ecommerce/features/product/ui/widgets/product_image_carousel_slider.dart';
 import 'package:ecommerce/features/product/ui/widgets/size_picker_widget.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +45,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               child: Column(
                                 children: [
                                   Text(
-                                    'Nike Shoe A2ERF - New Year Special Deal',
+                                    'Paracetamol + Tramadol Hydrochloride',
                                     style: textTheme.titleMedium,
                                   ),
                                   Row(
@@ -111,29 +111,29 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         const SizedBox(
                           height: 16,
                         ),
+                        // Text(
+                        //   'Doses',
+                        //   style: textTheme.titleMedium,
+                        // ),
+                        // const SizedBox(
+                        //   height: 8,
+                        // ),
+                        // ColorPickerWidget(
+                        //   colors: ['1+1+1', '0+0+1', 'Yellow', 'Pink', 'Blue'],
+                        //   onColorSelected: (String selectedColor) {},
+                        // ),
+                        // const SizedBox(
+                        //   height: 16,
+                        // ),
                         Text(
-                          'Color',
-                          style: textTheme.titleMedium,
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        ColorPickerWidget(
-                          colors: ['Red', 'Green', 'Yellow', 'Pink', 'Blue'],
-                          onColorSelected: (String selectedColor) {},
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        Text(
-                          'Size',
+                          'Units',
                           style: textTheme.titleMedium,
                         ),
                         const SizedBox(
                           height: 8,
                         ),
                         SizePickerWidget(
-                          sizes: ['S', 'XL', 'L', 'XXL'],
+                          sizes: ['0.5mg', '200mg', '400mg', '500mg'],
                           onSizeSelected: (String selectedSize) {},
                         ),
                         const SizedBox(
@@ -191,7 +191,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           SizedBox(
             width: 120,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CartListScreen(),
+                  ),
+                );
+              },
               child: const Text('Add to Cart'),
             ),
           ),
