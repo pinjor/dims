@@ -13,6 +13,7 @@ import 'package:ecommerce/features/product/ui/screens/product_create_review_scre
 import 'package:ecommerce/features/product/ui/screens/product_details_screen.dart';
 import 'package:ecommerce/features/product/ui/screens/product_list_screen.dart';
 import 'package:ecommerce/features/product/ui/screens/product_review_list.dart';
+import 'package:ecommerce/features/welcome/presentation/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -32,7 +33,11 @@ class craftybay extends StatelessWidget {
         late Widget widget;
         if (settings.name == splash_screen.name) {
           widget = const splash_screen();
-        } else if (settings.name == EmailVerificationScreen.name) {
+        }
+        else if(settings.name == WelcomeScreen.name){
+          widget = const WelcomeScreen();
+        }
+        else if (settings.name == EmailVerificationScreen.name) {
           widget = const EmailVerificationScreen();}
         else if (settings.name == LoginScreen.name) {
           widget = const LoginScreen();

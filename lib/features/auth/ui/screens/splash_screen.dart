@@ -1,6 +1,5 @@
-
-import 'package:ecommerce/features/auth/ui/screens/login_screen.dart';
 import 'package:ecommerce/features/auth/ui/widgets/app_icon_widget.dart';
+import 'package:ecommerce/features/welcome/presentation/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 class splash_screen extends StatefulWidget {
@@ -20,7 +19,7 @@ class _splash_screenState extends State<splash_screen> {
 
   Future<void> _moveToNextScreen() async {
     await Future.delayed(const Duration(seconds: 10));
-    Navigator.pushReplacementNamed(context, LoginScreen.name);
+    Navigator.pushReplacementNamed(context, WelcomeScreen.name);
   }
 
   @override

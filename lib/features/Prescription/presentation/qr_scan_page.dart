@@ -1,12 +1,13 @@
 import 'dart:io';
+import 'dart:convert';
 import 'dart:math';
-
 import 'package:ecommerce/app/app_colors.dart';
 import 'package:ecommerce/app/app_logo.dart';
-import 'package:ecommerce/features/Prescription/presentation/prescription_list.dart';
+import 'package:ecommerce/features/Prescription/presentation/pdf_viewer_screen.dart';
 import 'package:ecommerce/features/auth/ui/screens/complete_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 
@@ -15,12 +16,13 @@ class QRScanPage extends StatefulWidget {
   _QRScanPageState createState() => _QRScanPageState();
 }
 
-class _QRScanPageState extends State<QRScanPage> {
+class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateMixin {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   QRViewController? controller;
   bool _hasPermission = false;
   bool _isLoading = true;
   bool _showScanner = false;
+  bool _isSubmitting = false;
 
   final TextEditingController _mobileController = TextEditingController();
   final TextEditingController _prescriptionController = TextEditingController();
@@ -35,10 +37,16 @@ class _QRScanPageState extends State<QRScanPage> {
   Future<void> _checkCameraPermission() async {
     final status = await Permission.camera.status;
     if (!status.isGranted) {
-      await Permission.camera.request();
+      final result = await Permission.camera.request();
+      setState(() {
+        _hasPermission = result.isGranted;
+      });
+    } else {
+      setState(() {
+        _hasPermission = true;
+      });
     }
     setState(() {
-      _hasPermission = status.isGranted;
       _isLoading = false;
     });
   }
@@ -64,6 +72,8 @@ class _QRScanPageState extends State<QRScanPage> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
+      if (!mounted) return;
+
       if (scanData.code != null) {
         var data = scanData.code!.split('|');
         if (data.length == 2) {
@@ -88,7 +98,36 @@ class _QRScanPageState extends State<QRScanPage> {
     });
   }
 
-  void _submitData() {
+  Future<Map<String, dynamic>?> _fetchPrescriptionData() async {
+    const String apiUrl = 'http://192.168.10.106:9015/api/v1/opd/prescription/findOne-for-mobile-app';
+
+    try {
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'prescriptionNcId': _prescriptionController.text,
+          'patientContactNumber': _mobileController.text,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        final errorResponse = jsonDecode(response.body);
+        throw Exception(errorResponse['message'] ?? 'Failed to load prescription data');
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error fetching prescription: ${e.toString()}')),
+        );
+      }
+      return null;
+    }
+  }
+
+  Future<void> _submitData() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -100,31 +139,59 @@ class _QRScanPageState extends State<QRScanPage> {
       return;
     }
 
-    // Both fields are filled, proceed with submission
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Data submitted successfully!')),
-    );
+    setState(() {
+      _isSubmitting = true;
+    });
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => PdfViewerScreen(),
-      ),
-    );
+    try {
+      final prescriptionData = await _fetchPrescriptionData();
 
-    // Process your data here
-    print('Mobile: ${_mobileController.text}');
-    print('Prescription UID: ${_prescriptionController.text}');
+      if (prescriptionData != null && prescriptionData['data'] != null) {
+        final data = prescriptionData['data'];
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PdfViewerScreen(
+              prescriptionNcId: data['prescriptionNcId'] ?? 'N/A',
+              departmentName: data['departmentName'] ?? 'N/A',
+              doctorName: data['prescribedByName'] ?? 'Unknown Doctor',
+              date: data['prescriptionDate'] ?? 'Unknown Date',
+              prescriptionId: data['id'] ?? '',
+              prescriptionTypeKey: data['prescriptionTypeKey'] ?? '',
+              patientName: data['patientName'] ?? 'Unknown Patient',
+            ),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('No prescription data found')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: ${e.toString()}')),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSubmitting = false;
+        });
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return Center(child: CircularProgressIndicator());
+      return Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
     }
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('Prescription Scanner'),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Stack(
@@ -136,13 +203,14 @@ class _QRScanPageState extends State<QRScanPage> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      SizedBox(height: 60),
+                      SizedBox(height: 20),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           AppLogo(),
                         ],
                       ),
+                      SizedBox(height: 20),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -217,11 +285,15 @@ class _QRScanPageState extends State<QRScanPage> {
                         width: double.infinity,
                         height: 50,
                         child: ElevatedButton(
-                          onPressed: _submitData,
-                          child: Text('Submit'),
+                          onPressed: _isSubmitting ? null : _submitData,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: appColors.themeColor,
+                          ),
+                          child: _isSubmitting
+                              ? CircularProgressIndicator(color: Colors.white)
+                              : Text('Submit'),
                         ),
                       ),
-                      // Added "Don't have an account?" section
                       Padding(
                         padding: const EdgeInsets.only(left: 30),
                         child: Row(

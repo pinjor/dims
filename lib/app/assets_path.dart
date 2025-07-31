@@ -6,5 +6,9 @@ class assetsPath {
 
   static const String shoe_png = '$_image_path/download.jpg';
 
+  static const String egen_logo = '$_image_path/egen_logo.png';
+  static const String eghealth_logo = '$_image_path/eghealth.png';
+
+
 
 }
