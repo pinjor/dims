@@ -189,9 +189,7 @@ class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateM
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Prescription Scanner'),
-      ),
+
       body: SafeArea(
         child: SingleChildScrollView(
           child: Stack(

@@ -30,7 +30,7 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
     HomeScreen(),
     QRScanPage(),
     AccountScreen(),
-
+    
 
   ];
 
