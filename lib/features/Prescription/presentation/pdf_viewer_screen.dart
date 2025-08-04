@@ -185,33 +185,33 @@ class PdfViewerScreen extends StatelessWidget {
   //   );
   // }
 
-  Widget _buildDetailRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            flex: 2,
-            child: Text(
-              label,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.grey[700],
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Text(
-              value,
-              style: TextStyle(
-                color: Colors.grey[800],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _buildDetailRow(String label, String value) {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(vertical: 8.0),
+  //     child: Row(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Expanded(
+  //           flex: 2,
+  //           child: Text(
+  //             label,
+  //             style: TextStyle(
+  //               fontWeight: FontWeight.bold,
+  //               color: Colors.grey[700],
+  //             ),
+  //           ),
+  //         ),
+  //         Expanded(
+  //           flex: 3,
+  //           child: Text(
+  //             value,
+  //             style: TextStyle(
+  //               color: Colors.grey[800],
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }

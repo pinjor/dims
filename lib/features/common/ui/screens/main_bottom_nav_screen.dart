@@ -1,6 +1,8 @@
 import 'package:ecommerce/features/Account/Presentation/screen/account_screen.dart';
 import 'package:ecommerce/features/Prescription/presentation/qr_scan_page.dart';
 import 'package:ecommerce/features/common/ui/controllers/main_bottom_nav_controller.dart';
+import 'package:ecommerce/features/emr/presentation/screens/ehr_screen.dart';
+import 'package:ecommerce/features/home/presentation/screens/banner_home_screen.dart';
 import 'package:ecommerce/features/home/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,10 +29,11 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
 
 
   final List<Widget> _screens = [
-    HomeScreen(),
+    BannerHomeScreen(),
     QRScanPage(),
+    EHRScreen(),
     AccountScreen(),
-    
+
 
   ];
 
@@ -48,7 +51,10 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
             NavigationDestination(
                 icon: Icon(Icons.local_pharmacy), label: 'Prescription'),
             NavigationDestination(
+                icon: Icon(Icons.medical_services), label: 'EHR'),
+            NavigationDestination(
                 icon: Icon(Icons.person), label: 'Profile'),
+
 
           ],
         ),
