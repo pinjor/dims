@@ -1,9 +1,8 @@
 import 'package:ecommerce/features/Account/Presentation/screen/account_screen.dart';
 import 'package:ecommerce/features/Prescription/presentation/qr_scan_page.dart';
 import 'package:ecommerce/features/common/ui/controllers/main_bottom_nav_controller.dart';
-import 'package:ecommerce/features/emr/presentation/screens/ehr_screen.dart';
+import 'package:ecommerce/features/ehr/presentation/screens/ehr_screen.dart';
 import 'package:ecommerce/features/home/presentation/screens/banner_home_screen.dart';
-import 'package:ecommerce/features/home/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1,9 +1,7 @@
-import 'package:ecommerce/app/app_colors.dart';
 import 'package:ecommerce/app/app_logo.dart';
-import 'package:ecommerce/app/assets_path.dart';
 import 'package:ecommerce/features/Account/Presentation/screen/profile_screen.dart';
 import 'package:ecommerce/features/Prescription/presentation/qr_scan_page.dart';
-import 'package:ecommerce/features/emr/presentation/screens/ehr_screen.dart';
+import 'package:ecommerce/features/ehr/presentation/screens/ehr_screen.dart';
 import 'package:flutter/material.dart';
 
 class BannerHomeScreen extends StatelessWidget {
