@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter/foundation.dart' show kIsWeb, Platform;
+//import 'package:flutter/foundation.dart' show kIsWeb, Platform;
 
 class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({super.key});
@@ -25,7 +25,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   String? _selectedGender = 'Male';
   final List<String> _genders = ['Male', 'Female', 'Other'];
   File? _profileImage;
-  final ImagePicker _picker = ImagePicker();
+  //final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
@@ -43,26 +43,26 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     super.dispose();
   }
 
-  Future<bool> _checkAndRequestPermissions() async {
-    if (kIsWeb) return true;
-
-    if (Platform.isAndroid) {
-      final status = await Permission.photos.status;
-      if (!status.isGranted) {
-        final result = await Permission.photos.request();
-        return result.isGranted;
-      }
-      return true;
-    } else if (Platform.isIOS) {
-      final status = await Permission.photos.status;
-      if (!status.isGranted) {
-        final result = await Permission.photos.request();
-        return result.isGranted;
-      }
-      return true;
-    }
-    return false;
-  }
+  // Future<bool> _checkAndRequestPermissions() async {
+  //   if (kIsWeb) return true;
+  //
+  //   if (Platform.isAndroid) {
+  //     final status = await Permission.photos.status;
+  //     if (!status.isGranted) {
+  //       final result = await Permission.photos.request();
+  //       return result.isGranted;
+  //     }
+  //     return true;
+  //   } else if (Platform.isIOS) {
+  //     final status = await Permission.photos.status;
+  //     if (!status.isGranted) {
+  //       final result = await Permission.photos.request();
+  //       return result.isGranted;
+  //     }
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   Future<void> _pickImage() async {
     try {
@@ -246,14 +246,14 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     return emailRegex.hasMatch(email);
   }
 
-  void _showErrorSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.red,
-      ),
-    );
-  }
+  // void _showErrorSnackBar(String message) {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: Text(message),
+  //       backgroundColor: Colors.red,
+  //     ),
+  //   );
+  // }
 
   void _showSuccessSnackBar() {
     ScaffoldMessenger.of(context).showSnackBar(

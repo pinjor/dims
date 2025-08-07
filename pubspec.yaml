@@ -88,6 +88,7 @@ flutter:
     - assets/images/download.jpg
     - assets/images/eghealth.png
     - assets/images/ehr/
+    - assets/images/ehr/investigation.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

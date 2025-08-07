@@ -18,7 +18,7 @@ class _EHRScreenState extends State<EHRScreen>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 5, vsync: this)
+    tabController = TabController(length: 6, vsync: this)
       ..addListener(() {
         setState(() {}); // Force rebuild when tab changes
       });
@@ -69,7 +69,8 @@ class _EHRScreenState extends State<EHRScreen>
                       _buildCustomTab('Health Details', 'health_details', 1),
                       _buildCustomTab('Vitals', 'vitals', 2),
                       _buildCustomTab('Current Medicine', 'current_medicine', 3),
-                      _buildCustomTab('Family Disease', 'family_disease', 4),
+                      _buildCustomTab('Investigation', 'medical_records', 4),
+                      _buildCustomTab('Family Disease', 'family_disease', 5),
                       //_buildCustomTab('Medical Records', 'medical_records', 4),
 
                     ],
@@ -86,6 +87,7 @@ class _EHRScreenState extends State<EHRScreen>
                   _buildHealthDetailsTab(),
                   _buildVitalsTab(),
                   _buildCurrentMedicineTab(),
+                  _buildInvestigationTab(),
                   _buildFamilyDiseaseTab(),
                   //_buildMedicalRecordsTab(),
 
@@ -168,11 +170,12 @@ class _EHRScreenState extends State<EHRScreen>
 
   double _getTabWidth(String title) {
     switch (title) {
-      case 'Prescription': return 225.0;
+      case 'Prescription (OPD)': return 195.0;
       case 'Health Details': return 175.0;
       case 'Vitals': return 115.0;
       case 'Current Medicine': return 180.0;
       //case 'Medical Records': return 180.0;
+      case 'Investigation': return 160.0;
       case 'Family Disease': return 175.0;
       default: return 150.0;
     }
@@ -235,6 +238,9 @@ class _EHRScreenState extends State<EHRScreen>
     );
   }
 
+
+
+
   Widget _buildHealthDetailsTab() {
     return ListView(
       children: [
@@ -280,6 +286,20 @@ class _EHRScreenState extends State<EHRScreen>
             ],
           ),
         ),
+      ],
+    );
+  }
+
+
+  Widget _buildInvestigationTab() {
+    return ListView(
+      children: [
+        _buildSectionTitle('Disease'),
+        _buildDetailCard('Diabetes Mellitus Type 2', 'Diagnosed 2020', 'Prescription #E012203000004'),
+        _buildSectionTitle('Allergy'),
+        _buildDetailCard('Penicillin', 'Severe', 'Medicine Allergy'),
+        _buildSectionTitle('Chronic Disease'),
+        _buildDetailCard('Hypertension', 'Since 2018', 'Controlled with medication'),
       ],
     );
   }
