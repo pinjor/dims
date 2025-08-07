@@ -5,6 +5,7 @@ import 'package:ecommerce/app/app_colors.dart';
 import 'package:ecommerce/app/app_logo.dart';
 import 'package:ecommerce/features/Prescription/presentation/pdf_viewer_screen.dart';
 import 'package:ecommerce/features/auth/ui/screens/complete_profile_screen.dart';
+import 'package:ecommerce/features/auth/ui/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -85,7 +86,7 @@ class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateM
 
           controller.pauseCamera();
           HapticFeedback.vibrate();
-
+          FocusScope.of(context).unfocus();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Data scanned successfully!')),
           );
@@ -159,6 +160,8 @@ class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateM
               prescriptionId: data['id'] ?? '',
               prescriptionTypeKey: data['prescriptionTypeKey'] ?? '',
               patientName: data['patientName'] ?? 'Unknown Patient',
+              appointmentNcId: data['appointmentNcId'] ?? 'N/A',
+              appointmentDate: data['appointmentDto']?['appointmentDate'] ?? 'N/A',
             ),
           ),
         );
@@ -233,7 +236,7 @@ class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateM
                       TextFormField(
                         controller: _prescriptionController,
                         decoration: InputDecoration(
-                          labelText: 'Prescription UID*',
+                          labelText: 'Prescription/Appointment UID*',
                           border: OutlineInputBorder(),
                           prefixIcon: Icon(Icons.medical_services),
                           suffixIcon: IconButton(
@@ -254,7 +257,7 @@ class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateM
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Prescription UID is required';
+                            return 'Prescription/Appointment UID is required';
                           }
                           return null;
                         },
@@ -292,6 +295,29 @@ class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateM
                               : Text('Submit'),
                         ),
                       ),
+                      SizedBox(height: 20),
+                      Text('OR', style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
+                      SizedBox(height: 10),
+                      ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              side: BorderSide(color: appColors.themeColor,
+                              ),
+                            ),
+                          ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginScreen(),
+                            ),
+                          );
+                        },
+                        child: Text('Login',style: TextStyle(color:appColors.themeColor),),
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(left: 30),
                         child: Row(
@@ -308,9 +334,13 @@ class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateM
                               },
                               child: Text('Create Account'),
                             ),
+
                           ],
                         ),
                       ),
+
+
+
                     ],
                   ),
                 ),

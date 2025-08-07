@@ -68,83 +68,30 @@ class _DisclaimerBannerState extends State<DisclaimerBanner> {
                             fontSize: 12,
                           ),
                           children: [
-                            TextSpan(
-                              text: '1. General Information\n',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                            _buildTextSpan('1. General Information\n\n'),
+                            WidgetSpan(
+                              child: SizedBox(height: 10), // Adjust height as needed
                             ),
-                            TextSpan(
-                              text: '     The "Popular App" is designed to assist healthcare professionals and administrators in managing hospital operations. It is not a substitute for professional medical advice, diagnosis, or treatment.\n\n',
+                            _buildWidgetSpan('The "Popular App" is designed to assist healthcare professionals and administrators in managing hospital operations. It is not a substitute for professional medical advice, diagnosis, or treatment.\n'),
+                            _buildTextSpan('2. No Medical Liability\n\n'),
+                        _buildWidgetSpan( ' • The App does not provide medical services or emergency response.\n',
                             ),
-                            TextSpan(
-                              text: '2. No Medical Liability\n',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            TextSpan(
-                              text: ' • The App does not provide medical services or emergency response.\n',
-                            ),
-                            TextSpan(
-                              text: ' • Patients should consult qualified healthcare providers for medical concerns.\n',
-                            ),
-                            TextSpan(
-                              text: ' • The developers are not responsible for any medical decisions made based on the App\'s data.\n\n',
-                            ),
-                            TextSpan(
-                              text: '3. Data Accuracy & Security\n',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            TextSpan(
-                              text: ' • While we strive for accuracy, we do not guarantee error-free data processing.\n',
-                            ),
-                            TextSpan(
-                              text: ' • Users are responsible for verifying critical information.\n',
-                            ),
-                            TextSpan(
-                              text: ' • The App follows industry-standard security measures, but we cannot guarantee complete protection against breaches.\n\n',
-                            ),
-                            TextSpan(
-                              text: '4. Third-Party Services\n',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            TextSpan(
-                              text: ' • The App may integrate with external systems (e.g., labs, pharmacies). We are not liable for their services.\n',
-                            ),
-                            TextSpan(
-                              text: ' • Links to third-party websites/apps are not under our control.\n\n',
-                            ),
-                            TextSpan(
-                              text: '5. Use at Your Own Risk\n',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            TextSpan(
-                              text: ' • The App is provided "as is" without warranties of any kind.\n',
-                            ),
-                            TextSpan(
-                              text: ' • The developers shall not be liable for any damages arising from App usage.\n\n',
-                            ),
-                            TextSpan(
-                              text: '6. Compliance & Regulations\n',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            TextSpan(
-                              text: ' • Users must comply with local healthcare laws (e.g., HIPAA, GDPR) when handling patient data.\n',
-                            ),
-                            TextSpan(
-                              text: ' • Unauthorized use or misuse of the App is prohibited.\n\n',
-                            ),
-                            TextSpan(
-                              text: '7. Changes to Disclaimer\n',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            TextSpan(
-                              text: 'We reserve the right to modify this disclaimer at any time. Continued use implies acceptance of updates.\n\n',
-                            ),
-                            TextSpan(
-                              text: 'Contact Us\n',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            TextSpan(
-                              text: 'For questions, contact: [Your Support Email/Phone].',
-                            ),
+                            _buildWidgetSpan(' • Patients should consult qualified healthcare providers for medical concerns.\n'),
+                            _buildWidgetSpan(' • The developers are not responsible for any medical decisions made based on the App\'s data.\n'),
+                            _buildTextSpan('3. Data Accuracy & Security\n\n'),
+                            _buildWidgetSpan(' • While we strive for accuracy, we do not guarantee error-free data processing.\n'),
+                            _buildWidgetSpan(' • Users are responsible for verifying critical information.\n'),
+                            _buildWidgetSpan(' • The App follows industry-standard security measures, but we cannot guarantee complete protection against breaches.\n'),
+                            _buildTextSpan('4. Third-Party Services\n\n'),
+                            _buildWidgetSpan(' • The App may integrate with external systems (e.g., labs, pharmacies). We are not liable for their services.\n'),
+                            _buildWidgetSpan(' • Links to third-party websites/apps are not under our control.\n'),
+                            _buildTextSpan('5. Use at Your Own Risk\n\n'),
+                            _buildWidgetSpan(' • The App is provided "as is" without warranties of any kind.\n'),
+                            _buildWidgetSpan(' • The developers shall not be liable for any damages arising from App usage.\n'),
+                            _buildTextSpan('6. Compliance & Regulations\n\n'),
+                            _buildWidgetSpan(' • Users must comply with local healthcare laws (e.g., HIPAA, GDPR) when handling patient data.\n'),
+                            _buildWidgetSpan(' • Unauthorized use or misuse of the App is prohibited.\n'),
+
                           ],
                         ),
                       ),
@@ -172,5 +119,28 @@ class _DisclaimerBannerState extends State<DisclaimerBanner> {
         ),
       ),
     );
+  }
+
+  TextSpan _buildTextSpan(data) {
+    return TextSpan(
+                            text: data,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+
+                          );
+  }
+
+  WidgetSpan _buildWidgetSpan(data) {
+    return WidgetSpan(
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 15.0),
+                              child: Text(
+                                data,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          );
   }
 }

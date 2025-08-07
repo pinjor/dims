@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class BannerHomeScreen extends StatelessWidget {
   const BannerHomeScreen({super.key});
-
+  static const String name = '/bannerhome-screen';
   @override
   Widget build(BuildContext context) {
     return Scaffold(

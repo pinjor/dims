@@ -8,6 +8,7 @@ import 'package:ecommerce/features/auth/ui/screens/reset_password_screen.dart';
 import 'package:ecommerce/features/auth/ui/screens/splash_screen.dart';
 import 'package:ecommerce/features/category/ui/screens/category_list_screen.dart';
 import 'package:ecommerce/features/common/ui/screens/main_bottom_nav_screen.dart';
+import 'package:ecommerce/features/home/presentation/screens/banner_home_screen.dart';
 import 'package:ecommerce/features/home/presentation/screens/home_screen.dart';
 import 'package:ecommerce/features/product/ui/screens/product_create_review_screen.dart';
 import 'package:ecommerce/features/product/ui/screens/product_details_screen.dart';
@@ -41,6 +42,9 @@ class craftybay extends StatelessWidget {
           widget = const EmailVerificationScreen();}
         else if (settings.name == LoginScreen.name) {
           widget = const LoginScreen();
+        }
+        else if (settings.name == BannerHomeScreen.name) {
+          widget = const BannerHomeScreen();
         }
          else if (settings.name == OtpVeificationScreen.name) {
           widget = const OtpVeificationScreen();

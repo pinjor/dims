@@ -1,8 +1,10 @@
+import 'package:ecommerce/features/auth/ui/screens/login_screen_admin.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce/app/app_colors.dart';
 import 'package:ecommerce/app/app_logo.dart';
 import 'package:ecommerce/app/disclaimerbanner.dart';
 import 'package:ecommerce/features/Prescription/presentation/qr_scan_page.dart';
+
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -15,25 +17,25 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _slideAnimation;
+  bool _isAdminLogin = false;
 
   @override
   void initState() {
     super.initState();
 
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 500), // Changed from seconds to milliseconds
+      duration: const Duration(milliseconds: 500),
       vsync: this,
     );
 
     _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 1), // Start from bottom (fully hidden)
-      end: Offset.zero,          // End at final position
+      begin: const Offset(0, 1),
+      end: Offset.zero,
     ).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.easeOutBack,
     ));
 
-    // Start animation after build completes
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _controller.forward();
     });
@@ -45,12 +47,35 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
     super.dispose();
   }
 
+  void _handleAdminToggle(bool value) {
+    setState(() {
+      _isAdminLogin = value;
+    });
+
+    if (_isAdminLogin) {
+      // Navigate directly to admin login screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+
+          builder: (context) => LoginScreenAdmin(),
+        ),
+      ).then((_) {
+        // Reset toggle when returning
+        setState(() {
+          _isAdminLogin = false;
+        });
+      });
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          // Main content
+          // Main content background
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -67,23 +92,41 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 60), // Space for top-right toggle
+
+                  // App Logo
                   AppLogo(
                     width: 180,
-                    height: 100,
+                    height: 40,
                     boxfit: BoxFit.fitWidth,
                   ),
+
+                  // Welcome Text
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(65, 30, 0, 0),
-                    child: Text(
-                      '       Welcome to \nMobile App Service',
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    padding: const EdgeInsets.fromLTRB(60, 70, 0, 0),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Welcome to',
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          'Mobile App Service',
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
+
+                  // QR Banner
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -103,11 +146,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                       ),
                     ),
                   ),
-                  const SizedBox(height: 100),
+
+                  // Bottom content
+                  const SizedBox(height: 60),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(80, 0, 0, 0),
                     child: Text(
-                      '   Keep Track ',
+                      '   Keep Track',
                       style: TextStyle(
                         fontSize: 24,
                         color: Colors.white,
@@ -118,7 +163,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
                     child: Text(
-                      '   We will make it easy to manage \n           your medication routine ',
+                      '   We will make it easy to manage \n           your medication routine',
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.white,
@@ -126,6 +171,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                       ),
                     ),
                   ),
+
+                  // View Prescription Button
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 50),
@@ -159,7 +206,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                       ),
                     ),
                   ),
-                  const Spacer(), // This will push the powered by section to the bottom
+
+                  // Powered by section
+                  const Spacer(),
                   Align(
                     alignment: Alignment.centerRight,
                     child: Padding(
@@ -171,7 +220,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                           Padding(
                             padding: const EdgeInsets.only(bottom: 2),
                             child: Text(
-                              'A product of',
+                              'Powered by',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12,
@@ -179,7 +228,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                               ),
                             ),
                           ),
-                          SizedBox(width: 8), // Reduced space between text and logo
+                          SizedBox(width: 8),
                           Image.asset(
                             'assets/images/egen_logo.png',
                             width: 70,
@@ -190,13 +239,42 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20), // Add some bottom padding
                 ],
               ),
             ),
           ),
 
-          // Animated Disclaimer Banner
+          // Admin/Patient Toggle Switch - Top Right Corner
+          Positioned(
+            top: 60,
+            right: 10,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    _isAdminLogin ? 'Admin' : 'Patient',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                  SizedBox(width: 4),
+                  Switch(
+                    activeColor: appColors.themeColor,
+                    value: _isAdminLogin,
+                    onChanged: _handleAdminToggle,
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+
+          // Disclaimer Banner
           Positioned(
             bottom: 20,
             left: 20,

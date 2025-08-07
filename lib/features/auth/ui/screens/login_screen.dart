@@ -2,6 +2,7 @@ import 'package:ecommerce/app/app_colors.dart';
 import 'package:ecommerce/app/app_logo.dart';
 import 'package:ecommerce/features/auth/ui/screens/complete_profile_screen.dart';
 import 'package:ecommerce/features/auth/ui/screens/otp_verification_screen.dart';
+import 'package:ecommerce/features/common/ui/screens/main_bottom_nav_screen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -59,28 +60,28 @@ class LoginScreenState extends State<LoginScreen> {
               key: _formKey,
               child: Column(
                 children: [
-                  Align(
-                    // alignment: Alignment.topRight,
-                    child: Row(
-                      // mainAxisAlignment: MainAxisAlignment.center
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          _isAdminLogin ? 'Admin' : 'Patient',
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        Switch(
-                          activeColor: appColors.themeColor,
-                          value: _isAdminLogin,
-                          onChanged: (bool value) {
-                            setState(() {
-                              _isAdminLogin = value;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Align(
+                  //   // alignment: Alignment.topRight,
+                  //   child: Row(
+                  //     // mainAxisAlignment: MainAxisAlignment.center
+                  //     mainAxisAlignment: MainAxisAlignment.end,
+                  //     children: [
+                  //       Text(
+                  //         _isAdminLogin ? 'Admin' : 'Patient',
+                  //         style: Theme.of(context).textTheme.titleMedium,
+                  //       ),
+                  //       Switch(
+                  //         activeColor: appColors.themeColor,
+                  //         value: _isAdminLogin,
+                  //         onChanged: (bool value) {
+                  //           setState(() {
+                  //             _isAdminLogin = value;
+                  //           });
+                  //         },
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   SizedBox(height: 60,),
                   Row(
                     crossAxisAlignment:CrossAxisAlignment.start,
@@ -184,8 +185,8 @@ class LoginScreenState extends State<LoginScreen> {
                   // else
                     ElevatedButton(
                       onPressed:  () {
-    Navigator.pushReplacementNamed(
-    context, OtpVeificationScreen.name);
+    Navigator.pushReplacement(
+    context, MaterialPageRoute(builder: (context) => MainBottomNavScreen()));
     //if (_formKey.currentState!.validate()) {}
     },
       child: Text(

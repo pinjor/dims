@@ -10,6 +10,8 @@ class PdfViewerScreen extends StatelessWidget {
   final String prescriptionId;
   final String patientName;
   final String prescriptionTypeKey;
+  final String appointmentNcId;
+  final String appointmentDate;
 
   const PdfViewerScreen({
     super.key,
@@ -20,6 +22,8 @@ class PdfViewerScreen extends StatelessWidget {
     required this.prescriptionId,
     required this.prescriptionTypeKey,
     this.patientName = 'N/A',
+    this.appointmentNcId='N/A',
+    this.appointmentDate='N/A',
   });
 
   @override
@@ -57,9 +61,9 @@ class PdfViewerScreen extends StatelessWidget {
             children: [
               // Left side icon
               Positioned(
-                left: 0,
+
                 top: 0,
-                bottom: 0,
+                bottom: 140,
                 child: Center(
                   child: Container(
                     padding: const EdgeInsets.all(8),
@@ -69,7 +73,7 @@ class PdfViewerScreen extends StatelessWidget {
                     ),
                     child: Icon(
                       Icons.medical_services,
-                      size: 32,
+                      size: 20,
                       color: appColors.themeColor,
                     ),
                   ),
@@ -77,56 +81,116 @@ class PdfViewerScreen extends StatelessWidget {
               ),
 
               // Prescription content
-              Padding(
-                padding: const EdgeInsets.only(left: 60.0, right: 60.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 40),
+                    child: Text(
                       patientName,
                       style: const TextStyle(
-                        fontSize: 20,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 12),
-                    Text.rich(
-                      TextSpan(
-                        children: [
-                          const TextSpan(
-                            text: 'DR. ',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          TextSpan(text: doctorName),
-                        ],
-                      ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        const TextSpan(
+                          text: 'DR. Name : ',
+                          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12),
+                        ),
+                        TextSpan(text: doctorName,
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      departmentName,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue,
-                      ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        const TextSpan(
+                          text: 'Dept. Name : ',
+                          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12),
+                        ),
+                        TextSpan(text: departmentName,
+                          style: const TextStyle(fontSize: 12,color: Colors.blue,),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      date,
-                      style: TextStyle(color: Colors.grey[600]),
+                  ),
+                  const SizedBox(height: 2),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        const TextSpan(
+                          text: 'Appointment ID : ',
+                          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12),
+                        ),
+                        TextSpan(text: appointmentNcId,
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      ],
                     ),
-                    // const SizedBox(height: 8),
-                    // Text(
-                    //   'Prescription ID: $prescriptionNcId',
-                    //   style: TextStyle(color: Colors.grey[600]),
-                    // ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        const TextSpan(
+                          text: 'Appointment Date : ',
+                          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12),
+                        ),
+                        TextSpan(text: appointmentDate,
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        const TextSpan(
+                          text: 'Prescription ID : ',
+                          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12),
+                        ),
+                        TextSpan(text: prescriptionNcId,
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        const TextSpan(
+                          text: 'Prescription Date : ',
+                          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12),
+                        ),
+                        TextSpan(text: date,
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // const SizedBox(height: 8),
+                  // Text(
+                  //   'Prescription ID: $prescriptionNcId',
+                  //   style: TextStyle(color: Colors.grey[600]),
+                  // ),
+                ],
               ),
 
               // Right side action buttons
               Positioned(
                 right: 0,
-                top: 30,
+                top: 50,
                 child: Column(
                   children: [
                     // Download Button
