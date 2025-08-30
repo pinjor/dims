@@ -1,0 +1,21 @@
+{
+  "sl_number": 8,
+  "manufacturer_name": "Test Pharma Ltd",
+  "brand_name": "Test Medicine 100",
+  "generic_name_strength": "Test Drug 100 mg",
+  "dosage_form": "Tablet",
+  "use_for": "Human",
+  "dar_number": "394-0008-999",
+  "indication": "Test indication for testing API",
+  "price": 50.00,
+  "adult_dose": "100mg twice daily",
+  "child_dose": "50mg twice daily",
+  "renal_dose": "No adjustment needed",
+  "administration": "Take with food",
+  "side_effects": "Mild nausea",
+  "precautions_warnings": "Use with caution",
+  "pregnancy_lactation": "Category B",
+  "mode_of_action": "Test mechanism",
+  "interaction": "No known interactions",
+  "dosage_from": "30 tablets per bottle"
+}

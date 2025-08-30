@@ -175,7 +175,7 @@ class _EHRScreenState extends State<EHRScreen>
       case 'Vitals': return 115.0;
       case 'Current Medicine': return 180.0;
       //case 'Medical Records': return 180.0;
-      case 'Investigation': return 160.0;
+      //case 'Investigation': return 160.0;
       case 'Family Disease': return 175.0;
       default: return 150.0;
     }

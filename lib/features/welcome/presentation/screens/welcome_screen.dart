@@ -1,4 +1,5 @@
 import 'package:ecommerce/features/auth/ui/screens/login_screen_admin.dart';
+import 'package:ecommerce/features/dims/presentation/medicine_list.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce/app/app_colors.dart';
 import 'package:ecommerce/app/app_logo.dart';
@@ -181,7 +182,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => QRScanPage(),
+                              builder: (context) => MedicineSearchScreen(),
                             ),
                           );
                         },
@@ -195,7 +196,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 3),
                           child: Text(
-                            'View Prescription',
+                            'Search Medicines',
                             style: TextStyle(
                               color: appColors.themeColor,
                               fontSize: 16,

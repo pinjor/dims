@@ -1,0 +1,121 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: dims_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: dims_db
+      POSTGRES_USER: dims_user
+      POSTGRES_PASSWORD: dims_password
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d
+    networks:
+      - dims_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dims_user -d dims_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # pgAdmin for database management (optional)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: dims_pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@dims.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - dims_network
+    depends_on:
+      - postgres
+
+  # FastAPI Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: dims_backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://dims_user:dims_password@postgres:5432/dims_db
+      - REDIS_URL=redis://redis:6379/0
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - DEBUG=True
+      - SECRET_KEY=your-secret-key-change-this-in-production
+      - CACHE_TTL=300
+      - REDIS_CACHE_TTL=600
+    volumes:
+      - ./backend:/app
+    networks:
+      - dims_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Redis for caching
+  redis:
+    image: redis:7-alpine
+    container_name: dims_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - dims_network
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Flutter Web App
+  dims_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dims_web_app
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    networks:
+      - dims_network
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  dims_network:
+    driver: bridge

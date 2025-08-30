@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:ecommerce/app/app_colors.dart';
 import 'package:ecommerce/app/app_logo.dart';
+import 'package:ecommerce/core/constants/api_constants.dart';
 import 'package:ecommerce/features/Prescription/presentation/pdf_viewer_screen.dart';
 import 'package:ecommerce/features/auth/ui/screens/complete_profile_screen.dart';
 import 'package:ecommerce/features/auth/ui/screens/login_screen.dart';
@@ -17,7 +18,7 @@ class QRScanPage extends StatefulWidget {
   _QRScanPageState createState() => _QRScanPageState();
 }
 
-class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateMixin {
+class _QRScanPageState extends State<QRScanPage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   QRViewController? controller;
   bool _hasPermission = false;
@@ -26,8 +27,12 @@ class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateM
   bool _isSubmitting = false;
 
   final TextEditingController _mobileController = TextEditingController();
-  final TextEditingController _prescriptionController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _uidController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  // Dropdown options
+  final List<String> _idTypes = ['Prescription ID', 'Appointment ID'];
+  String _selectedIdType = 'Prescription ID';
 
   @override
   void initState() {
@@ -66,7 +71,7 @@ class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateM
   void dispose() {
     controller?.dispose();
     _mobileController.dispose();
-    _prescriptionController.dispose();
+    _uidController.dispose();
     super.dispose();
   }
 
@@ -80,7 +85,7 @@ class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateM
         if (data.length == 2) {
           setState(() {
             _mobileController.text = data[0];
-            _prescriptionController.text = data[1];
+            _uidController.text = data[1];
             _showScanner = false;
           });
 
@@ -100,14 +105,14 @@ class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateM
   }
 
   Future<Map<String, dynamic>?> _fetchPrescriptionData() async {
-    const String apiUrl = 'http://192.168.10.106:9015/api/v1/opd/prescription/findOne-for-mobile-app';
+    final String apiUrl = '${ApiConstants.baseUrl}:${ApiConstants.port}${ApiConstants.prescriptionList}';
 
     try {
       final response = await http.post(
         Uri.parse(apiUrl),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-          'prescriptionNcId': _prescriptionController.text,
+          'prescriptionNcId': _uidController.text,
           'patientContactNumber': _mobileController.text,
         }),
       );
@@ -128,14 +133,43 @@ class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateM
     }
   }
 
+  Future<Map<String, dynamic>?> _fetchAppointmentData() async {
+    final String apiUrl = '${ApiConstants.baseUrl}:${ApiConstants.port}${ApiConstants.appointmentList}';
+
+    try {
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'appointmentNcId': _uidController.text,
+          'patientContactNumber': _mobileController.text,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        final errorResponse = jsonDecode(response.body);
+        throw Exception(errorResponse['message'] ?? 'Failed to load appointment data');
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error fetching appointment: ${e.toString()}')),
+        );
+      }
+      return null;
+    }
+  }
+
   Future<void> _submitData() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
-    if (_mobileController.text.isEmpty || _prescriptionController.text.isEmpty) {
+    if (_mobileController.text.isEmpty || _uidController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please fill both mobile number and prescription UID')),
+        SnackBar(content: Text('Please fill both mobile number and $_selectedIdType')),
       );
       return;
     }
@@ -145,30 +179,56 @@ class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateM
     });
 
     try {
-      final prescriptionData = await _fetchPrescriptionData();
+      if (_selectedIdType == 'Prescription ID') {
+        // Prescription flow
+        final prescriptionData = await _fetchPrescriptionData();
 
-      if (prescriptionData != null && prescriptionData['data'] != null) {
-        final data = prescriptionData['data'];
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PdfViewerScreen(
-              prescriptionNcId: data['prescriptionNcId'] ?? 'N/A',
-              departmentName: data['departmentName'] ?? 'N/A',
-              doctorName: data['prescribedByName'] ?? 'Unknown Doctor',
-              date: data['prescriptionDate'] ?? 'Unknown Date',
-              prescriptionId: data['id'] ?? '',
-              prescriptionTypeKey: data['prescriptionTypeKey'] ?? '',
-              patientName: data['patientName'] ?? 'Unknown Patient',
-              appointmentNcId: data['appointmentNcId'] ?? 'N/A',
-              appointmentDate: data['appointmentDto']?['appointmentDate'] ?? 'N/A',
+        if (prescriptionData != null && prescriptionData['data'] != null) {
+          final data = prescriptionData['data'];
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PdfViewerScreen(
+                prescriptionNcId: data['prescriptionNcId'] ?? 'N/A',
+                departmentName: data['departmentName'] ?? 'N/A',
+                doctorName: data['prescribedByName'] ?? 'Unknown Doctor',
+                date: data['prescriptionDate'] ?? 'Unknown Date',
+                prescriptionId: data['id'] ?? '',
+                prescriptionTypeKey: data['prescriptionTypeKey'] ?? '',
+                patientName: data['patientName'] ?? 'Unknown Patient',
+                appointmentNcId: data['appointmentNcId'] ?? 'N/A',
+                appointmentDate: data['appointmentDto']?['appointmentDate'] ?? 'N/A',
+              ),
             ),
-          ),
-        );
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('No prescription data found')),
+          );
+        }
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('No prescription data found')),
-        );
+        // Appointment flow
+        final appointmentData = await _fetchAppointmentData();
+
+        if (appointmentData != null && appointmentData['data'] != null) {
+          //final data = appointmentData['data'];
+          // Navigate to appointment details screen (you'll need to create this)
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => AppointmentDetailsScreen(
+          //       appointmentData: data,
+          //     ),
+          //   ),
+          // );
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Appointment data loaded successfully')),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('No appointment data found')),
+          );
+        }
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -192,7 +252,6 @@ class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateM
     }
 
     return Scaffold(
-
       body: SafeArea(
         child: SingleChildScrollView(
           child: Stack(
@@ -219,8 +278,12 @@ class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateM
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Prescription',
-                                style: Theme.of(context).textTheme.titleLarge,
+                                _selectedIdType == 'Prescription ID' ? 'Prescription' : 'Appointment',
+                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
                               ),
                               SizedBox(height: 5),
                               Container(
@@ -233,12 +296,44 @@ class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateM
                         ],
                       ),
                       SizedBox(height: 30.0),
-                      TextFormField(
-                        controller: _prescriptionController,
+
+                      // ID Type Dropdown
+                      DropdownButtonFormField<String>(
+                        value: _selectedIdType,
                         decoration: InputDecoration(
-                          labelText: 'Prescription/Appointment UID*',
+                          labelText: 'ID Type*',
                           border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.medical_services),
+                          prefixIcon: Icon(Icons.category),
+                        ),
+                        items: _idTypes.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: (newValue) {
+                          setState(() {
+                            _selectedIdType = newValue!;
+                          });
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please select an ID type';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 16),
+
+                      // UID Field (dynamic based on selection)
+                      TextFormField(
+                        controller: _uidController,
+                        decoration: InputDecoration(
+                          labelText: '$_selectedIdType*',
+                          border: OutlineInputBorder(),
+                          prefixIcon: Icon(_selectedIdType == 'Prescription ID'
+                              ? Icons.medical_services
+                              : Icons.calendar_today),
                           suffixIcon: IconButton(
                             icon: Icon(Icons.qr_code),
                             onPressed: () {
@@ -257,12 +352,14 @@ class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateM
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Prescription/Appointment UID is required';
+                            return '$_selectedIdType is required';
                           }
                           return null;
                         },
                       ),
                       SizedBox(height: 16),
+
+                      // Mobile Number Field
                       TextFormField(
                         controller: _mobileController,
                         decoration: InputDecoration(
@@ -282,6 +379,8 @@ class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateM
                         },
                       ),
                       SizedBox(height: 32),
+
+                      // Submit Button
                       SizedBox(
                         width: double.infinity,
                         height: 50,
@@ -296,18 +395,21 @@ class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateM
                         ),
                       ),
                       SizedBox(height: 20),
-                      Text('OR', style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
+
+                      // OR Divider
+                      Text('OR', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                       SizedBox(height: 10),
+
+                      // Login Button
                       ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              side: BorderSide(color: appColors.themeColor,
-                              ),
-                            ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: BorderSide(color: appColors.themeColor),
                           ),
+                        ),
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -316,8 +418,10 @@ class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateM
                             ),
                           );
                         },
-                        child: Text('Login',style: TextStyle(color:appColors.themeColor),),
+                        child: Text('Login', style: TextStyle(color: appColors.themeColor)),
                       ),
+
+                      // Create Account Link
                       Padding(
                         padding: const EdgeInsets.only(left: 30),
                         child: Row(
@@ -334,13 +438,9 @@ class _QRScanPageState extends State<QRScanPage> with SingleTickerProviderStateM
                               },
                               child: Text('Create Account'),
                             ),
-
                           ],
                         ),
                       ),
-
-
-
                     ],
                   ),
                 ),
