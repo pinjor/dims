@@ -80,8 +80,8 @@ Each medicine product includes comprehensive information:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/pinjor/popular_app.git
-   cd popular_app
+   git clone https://github.com/pinjor/dims.git
+   cd dims
    ```
 
 2. **Start the services**
