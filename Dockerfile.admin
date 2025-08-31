@@ -1,0 +1,32 @@
+# Multi-stage build for Flutter Web Admin App
+FROM ghcr.io/cirruslabs/flutter:stable AS build
+
+# Set working directory
+WORKDIR /app
+
+# Copy pubspec files
+COPY pubspec.yaml pubspec.lock ./
+
+# Get dependencies
+RUN flutter pub get
+
+# Copy source code
+COPY . .
+
+# Build Flutter web app for admin
+RUN flutter build web --release --target lib/admin_simple_main.dart
+
+# Production stage with nginx
+FROM nginx:alpine
+
+# Copy built Flutter web app
+COPY --from=build /app/build/web /usr/share/nginx/html
+
+# Copy nginx configuration
+COPY nginx.admin.conf /etc/nginx/nginx.conf
+
+# Expose port
+EXPOSE 80
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]

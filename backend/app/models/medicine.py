@@ -30,7 +30,16 @@ class MedicineProductType(Base):
     pregnancy_lactation = Column(Text)
     mode_of_action = Column(Text)
     interaction = Column(Text)
-    dosage_from = Column(String(100))  # Renamed from pack_size
+    
+    # Additional information
+    category = Column(String(100))
+    drug_code = Column(String(50))
+    country_code = Column(String(10))
+    pack_size = Column(String(100))
+    special_category = Column(String(100))
+    shelf_life = Column(String(50))
+    temperature_condition = Column(String(100))
+    therapeutic_class = Column(String(100))
     
     # Timestamps
     created_at = Column(DateTime(timezone=True), server_default=func.now())

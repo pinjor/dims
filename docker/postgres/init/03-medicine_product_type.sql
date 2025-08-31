@@ -19,7 +19,14 @@ CREATE TABLE IF NOT EXISTS medicine_product_type (
     pregnancy_lactation TEXT,
     mode_of_action TEXT,
     interaction TEXT,
+    category VARCHAR(100),
+    drug_code VARCHAR(50),
+    country_code VARCHAR(10),
     pack_size VARCHAR(100),
+    special_category VARCHAR(100),
+    shelf_life VARCHAR(50),
+    temperature_condition VARCHAR(100),
+    therapeutic_class VARCHAR(100),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -35,7 +42,9 @@ INSERT INTO medicine_product_type (
     sl_number, manufacturer_name, brand_name, generic_name_strength, 
     dosage_form, use_for, dar_number, indication, price, adult_dose, 
     child_dose, renal_dose, administration, side_effects, precautions_warnings, 
-    pregnancy_lactation, mode_of_action, interaction, pack_size
+    pregnancy_lactation, mode_of_action, interaction, category, drug_code, 
+    country_code, pack_size, special_category, shelf_life, temperature_condition, 
+    therapeutic_class
 ) VALUES 
 (
     1, 'ACI HealthCare Limited', 'Nimocon 500', 'Azithromycin 500 mg',
@@ -51,7 +60,7 @@ INSERT INTO medicine_product_type (
     'Category B: Generally safe during pregnancy. Excreted in breast milk',
     'Bacteriostatic antibiotic that inhibits protein synthesis by binding to 50S ribosomal subunit',
     'May interact with warfarin, digoxin, theophylline. Avoid with ergot alkaloids',
-    '10 tablets per strip'
+    'Antibiotic', 'AZI500', 'BD', '10 tablets per strip', 'Prescription', '36 months', 'Room temperature', 'Macrolide Antibiotic'
 ),
 (
     2, 'ACI HealthCare Limited', 'Adbon', 'Calcium + Vitamin D3 500 mg + 200 IU',
@@ -67,7 +76,7 @@ INSERT INTO medicine_product_type (
     'Category C: Use only if clearly needed during pregnancy',
     'Calcium provides structural support for bones and teeth. Vitamin D3 enhances calcium absorption',
     'May decrease absorption of tetracyclines and fluoroquinolones',
-    '30 tablets per bottle'
+    'Nutritional Supplement', 'CAL500', 'BD', '30 tablets per bottle', 'OTC', '24 months', 'Room temperature', 'Mineral & Vitamin Supplement'
 ),
 (
     3, 'ACI HealthCare Limited', 'Opental 50', 'Tramadol 50 mg',
@@ -83,7 +92,7 @@ INSERT INTO medicine_product_type (
     'Category C: Use only if clearly needed during pregnancy',
     'Opioid analgesic that binds to mu-opioid receptors and inhibits norepinephrine reuptake',
     'May interact with MAO inhibitors, SSRIs, alcohol. Avoid with other CNS depressants',
-    '20 tablets per strip'
+    'Analgesic', 'TRA50', 'BD', '20 tablets per strip', 'Controlled Drug', '24 months', 'Room temperature', 'Opioid Analgesic'
 ),
 (
     4, 'ACI HealthCare Limited', 'Acidex 20', 'Omeprazole 20 mg',
@@ -99,7 +108,7 @@ INSERT INTO medicine_product_type (
     'Category C: Use only if clearly needed during pregnancy',
     'Proton pump inhibitor that irreversibly blocks H+/K+-ATPase enzyme in gastric parietal cells',
     'May interact with clopidogrel, warfarin, phenytoin. Avoid with atazanavir',
-    '14 capsules per strip'
+    'Gastrointestinal', 'OME20', 'BD', '14 capsules per strip', 'Prescription', '36 months', 'Room temperature', 'Proton Pump Inhibitor'
 ),
 (
     5, 'Square Pharmaceuticals Ltd', 'Napa 500', 'Paracetamol 500 mg',
@@ -115,7 +124,7 @@ INSERT INTO medicine_product_type (
     'Category B: Generally safe during pregnancy and breastfeeding',
     'Inhibits cyclooxygenase enzymes, reducing prostaglandin synthesis in CNS',
     'May interact with warfarin. Avoid with alcohol',
-    '20 tablets per strip'
+    'Analgesic', 'PAR500', 'BD', '20 tablets per strip', 'OTC', '36 months', 'Room temperature', 'Non-opioid Analgesic'
 ),
 (
     6, 'Beximco Pharmaceuticals Ltd', 'Napa Extra', 'Paracetamol 500 mg + Caffeine 65 mg',
@@ -131,7 +140,7 @@ INSERT INTO medicine_product_type (
     'Category B: Generally safe during pregnancy',
     'Paracetamol provides pain relief and fever reduction. Caffeine enhances analgesic effect',
     'May interact with warfarin. Caffeine may interact with other stimulants',
-    '20 tablets per strip'
+    'Analgesic', 'PAR500C', 'BD', '20 tablets per strip', 'OTC', '36 months', 'Room temperature', 'Combination Analgesic'
 ),
 (
     7, 'Incepta Pharmaceuticals Ltd', 'Ace 100', 'Aceclofenac 100 mg',
@@ -147,7 +156,7 @@ INSERT INTO medicine_product_type (
     'Category C: Avoid during third trimester of pregnancy',
     'Non-steroidal anti-inflammatory drug (NSAID) that inhibits cyclooxygenase enzymes',
     'May interact with warfarin, lithium, methotrexate. Avoid with other NSAIDs',
-    '20 tablets per strip'
+    'Anti-inflammatory', 'ACE100', 'BD', '20 tablets per strip', 'Prescription', '36 months', 'Room temperature', 'NSAID'
 );
 
 -- Create a trigger to update the updated_at timestamp

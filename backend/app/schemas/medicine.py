@@ -24,7 +24,14 @@ class MedicineBase(BaseModel):
     pregnancy_lactation: Optional[str] = Field(None, description="Pregnancy and lactation")
     mode_of_action: Optional[str] = Field(None, description="Mode of action")
     interaction: Optional[str] = Field(None, description="Interaction")
-    dosage_from: Optional[str] = Field(None, max_length=100, description="Dosage from")
+    category: Optional[str] = Field(None, max_length=100, description="Category")
+    drug_code: Optional[str] = Field(None, max_length=50, description="Drug code")
+    country_code: Optional[str] = Field(None, max_length=10, description="Country code")
+    pack_size: Optional[str] = Field(None, max_length=100, description="Pack size")
+    special_category: Optional[str] = Field(None, max_length=100, description="Special category")
+    shelf_life: Optional[str] = Field(None, max_length=50, description="Shelf life")
+    temperature_condition: Optional[str] = Field(None, max_length=100, description="Temperature condition")
+    therapeutic_class: Optional[str] = Field(None, max_length=100, description="Therapeutic class")
 
 
 class MedicineCreate(MedicineBase):
@@ -52,7 +59,14 @@ class MedicineUpdate(BaseModel):
     pregnancy_lactation: Optional[str] = None
     mode_of_action: Optional[str] = None
     interaction: Optional[str] = None
-    dosage_from: Optional[str] = Field(None, max_length=100)
+    category: Optional[str] = Field(None, max_length=100)
+    drug_code: Optional[str] = Field(None, max_length=50)
+    country_code: Optional[str] = Field(None, max_length=10)
+    pack_size: Optional[str] = Field(None, max_length=100)
+    special_category: Optional[str] = Field(None, max_length=100)
+    shelf_life: Optional[str] = Field(None, max_length=50)
+    temperature_condition: Optional[str] = Field(None, max_length=100)
+    therapeutic_class: Optional[str] = Field(None, max_length=100)
 
 
 class MedicineResponse(MedicineBase):

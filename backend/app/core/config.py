@@ -21,7 +21,16 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = 30
     
     # CORS
-    allowed_origins: List[str] = ["http://localhost:3000", "http://localhost:8080"]
+    allowed_origins: List[str] = [
+        "http://localhost:3000", 
+        "http://localhost:3001", 
+        "http://localhost:8080", 
+        "http://192.168.80.158:3000",
+        "http://116.68.194.221:3000",
+        "http://116.68.194.221:3001", 
+        "http://116.68.194.221:8080",
+        "http://116.68.194.221:8000"
+    ]
     
     # Cache Configuration
     cache_ttl: int = 300  # 5 minutes

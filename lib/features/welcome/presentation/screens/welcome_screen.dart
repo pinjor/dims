@@ -1,5 +1,5 @@
 import 'package:ecommerce/features/auth/ui/screens/login_screen_admin.dart';
-import 'package:ecommerce/features/dims/presentation/medicine_list.dart';
+import 'package:ecommerce/features/medicine/presentation/screens/medicine_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce/app/app_colors.dart';
 import 'package:ecommerce/app/app_logo.dart';
@@ -179,10 +179,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                       padding: const EdgeInsets.only(top: 50),
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.pushReplacement(
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => MedicineSearchScreen(),
+                              builder: (context) => const MedicineListScreen(),
                             ),
                           );
                         },
@@ -196,7 +196,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 3),
                           child: Text(
-                            'Search Medicines',
+                            'View Medicines',
                             style: TextStyle(
                               color: appColors.themeColor,
                               fontSize: 16,

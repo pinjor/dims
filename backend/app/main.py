@@ -7,6 +7,7 @@ import time
 from .core.config import settings
 from .core.database import engine, Base
 from .api.medicine import router as medicine_router
+from .api.admin import router as admin_router
 
 
 @asynccontextmanager
@@ -85,6 +86,12 @@ app.include_router(
     medicine_router,
     prefix=settings.api_v1_prefix,
     tags=["medicines"]
+)
+
+app.include_router(
+    admin_router,
+    prefix=settings.api_v1_prefix,
+    tags=["admin"]
 )
 
 

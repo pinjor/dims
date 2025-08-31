@@ -1,6 +1,6 @@
 class ApiConstants {
   // static const String baseUrl = 'http://116.68.206.157:9445';
-  static const String baseUrl = 'http://192.168.10.106';
+  static const String baseUrl = 'http://192.168.80.158';
 
   static const int port = 9015;
 

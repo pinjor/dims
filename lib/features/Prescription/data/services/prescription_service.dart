@@ -100,7 +100,7 @@ class PrescriptionService {
   // URL construction
   @pragma('vm:entry-point')
   static String _getDownloadUrl(String id, String typeKey) {
-    const baseUrl = 'http://192.168.10.106:9015/api/v1/opd/prescription-report';
+    const baseUrl = 'http://192.168.80.158:8000/api/v1/opd/prescription-report';
     final encodedId = Uri.encodeComponent(id);
     switch (typeKey) {
       case 'OPD_GENERAL':

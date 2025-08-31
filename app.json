@@ -1,0 +1,25 @@
+{
+  "name": "DIMS System",
+  "description": "Drug Information Management System",
+  "repository": "https://github.com/yourusername/dims-system",
+  "logo": "https://node-js-sample.herokuapp.com/node.png",
+  "keywords": ["dims", "medicine", "management", "flutter", "fastapi"],
+  "stack": "container",
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql:mini"
+    }
+  ],
+  "env": {
+    "DATABASE_URL": {
+      "description": "PostgreSQL database URL",
+      "generator": "secret"
+    }
+  }
+}

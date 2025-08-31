@@ -49,7 +49,7 @@ async def get_medicines(
     
     # Create response
     result = {
-        "items": medicines,
+        "items": [medicine.__dict__ for medicine in medicines],
         "total": total,
         "page": page,
         "size": size,
@@ -238,7 +238,7 @@ async def search_medicines(
     
     # Create response
     result = {
-        "items": medicines,
+        "items": [medicine.__dict__ for medicine in medicines],
         "total": total,
         "page": search_request.page,
         "size": search_request.size,

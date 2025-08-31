@@ -15,6 +15,9 @@ import 'package:ecommerce/features/product/ui/screens/product_details_screen.dar
 import 'package:ecommerce/features/product/ui/screens/product_list_screen.dart';
 import 'package:ecommerce/features/product/ui/screens/product_review_list.dart';
 import 'package:ecommerce/features/welcome/presentation/screens/welcome_screen.dart';
+import 'package:ecommerce/features/admin/presentation/screens/admin_login_screen.dart';
+import 'package:ecommerce/features/admin/presentation/screens/admin_dashboard_screen.dart';
+import 'package:ecommerce/features/admin/presentation/screens/medicine_form_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -72,6 +75,12 @@ class craftybay extends StatelessWidget {
           widget = const ProductCreateReviewScreen();
         } else if (settings.name == ProductReviewList.name) {
           widget = const ProductReviewList();
+        } else if (settings.name == '/admin/login') {
+          widget = const AdminLoginScreen();
+        } else if (settings.name == '/admin/dashboard') {
+          widget = const AdminDashboardScreen();
+        } else if (settings.name == '/admin/medicine-form') {
+          widget = const MedicineFormScreen();
         }
 
         return MaterialPageRoute(builder: (ctx) {
