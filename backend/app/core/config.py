@@ -29,7 +29,10 @@ class Settings(BaseSettings):
         "http://116.68.194.221:3000",
         "http://116.68.194.221:3001", 
         "http://116.68.194.221:8080",
-        "http://116.68.194.221:8000"
+        "http://116.68.194.221:8000",
+        "https://dims-admin.onrender.com",
+        "https://dims-main.onrender.com",
+        "https://dims-backend.onrender.com"
     ]
     
     # Cache Configuration

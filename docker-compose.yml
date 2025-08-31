@@ -34,7 +34,7 @@ services:
       PGADMIN_DEFAULT_PASSWORD: admin123
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     ports:
-      - "0.0.0.0:8080:80"
+      - "8080:80"
     volumes:
       - pgadmin_data:/var/lib/pgadmin
     networks:
@@ -50,7 +50,7 @@ services:
     container_name: dims_backend
     restart: unless-stopped
     ports:
-      - "0.0.0.0:8000:8000"
+      - "8000:8000"
     environment:
       - DATABASE_URL=postgresql://dims_user:dims_password@postgres:5432/dims_db
       - REDIS_URL=redis://redis:6379/0
@@ -102,7 +102,7 @@ services:
     container_name: dims_web_app
     restart: unless-stopped
     ports:
-      - "0.0.0.0:3000:80"
+      - "3000:80"
     networks:
       - dims_network
     depends_on:
@@ -116,7 +116,7 @@ services:
     container_name: dims_admin_app
     restart: unless-stopped
     ports:
-      - "0.0.0.0:3001:80"
+      - "3001:80"
     networks:
       - dims_network
     depends_on:

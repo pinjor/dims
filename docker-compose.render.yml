@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - DEBUG=False
+      - SECRET_KEY=your-secret-key-change-this-in-production
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  admin_app:
+    build:
+      context: .
+      dockerfile: Dockerfile.admin
+    environment:
+      - API_URL=${API_URL:-http://backend:8000}
+    ports:
+      - "3001:80"
+    depends_on:
+      - backend

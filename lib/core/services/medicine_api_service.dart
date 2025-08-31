@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class MedicineApiService {
-  static const String baseUrl = 'http://116.68.194.221:8000/api/v1';
+  static const String baseUrl = 'http://localhost:8000/api/v1';
   
   // Get all medicines with pagination
   static Future<Map<String, dynamic>> getMedicines({
